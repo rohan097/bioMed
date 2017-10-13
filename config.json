@@ -1,1 +1,1 @@
-{"parameters": {"fs": 399.6097561, "NFFT": 1024, "noverlap": 512}, "path": "/media/rohan/My Stuff/EEG/", "electrode": 1, "output_path": "/home/rohan/bioMed/"}
+{"fs": 399.6097561, "NFFT": 1024.0, "path": "/home/rohan/Datasets/EEG/", "output_path": "/home/rohan/Course Projects/bioMed/", "noverlap": 512.0, "electrode": 1.0}

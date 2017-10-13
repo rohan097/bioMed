@@ -1,20 +1,56 @@
 import json
 import os
+import re
 
-new_dict = {}
-#new_dict['parameters'] = {'fs': 399.6097561, 'noverlap': 512, 'NFFT': 1024}
-#new_dict['output_path'] = '/home/rohan/bioMed/'
-if os.path.isfile('config.json'):
+
+def check_file():
+    if os.path.isfile('config.json'):
+        return True
+    else:
+        return False
+
+
+def edit():
     with open('config.json', 'r') as f:
         config = json.load(f)
+    print(config)
 
-    if len(new_dict):
-        config.update(new_dict)
-        with open('config.json', 'w') as f:
-            json.dump(config, f)
 
-    print ("Updated 'Config.json': \n", config)
-else:
-    config = {'path' : '/media/rohan/My Stuff/EEG/'}
+def write(obj):
     with open('config.json', 'w') as f:
-        json.dump(config, f)
+        json.dump(obj, f)
+    print("File  written!")
+
+
+def create():
+    keys = input("Enter the parameters, separated by a space: \n").strip().split(' ')
+    print(keys)
+    data = {}
+    for i in keys:
+        data[i] = input("Enter the value to be associated with %s: " % i)
+        if re.match('/*[A-Za-z]+', data[i]):
+            pass
+        else:
+            data[i] = float(data[i])
+
+    print("The config file to be generated is: \n", data)
+    choice = input("Do you wish to write it to file? [Y/N]: ")
+    if choice in 'Yy':
+        write(data)
+    else:
+        parameter = input("Enter the parameter you wish to edit: \n").strip().split(' ')
+        for i in parameter:
+            data[i] = input("Enter the new value for %s" % i)
+        write(data)
+
+
+def main():
+    file_present = check_file()
+    if file_present:
+        edit()
+    else:
+        create()
+
+
+if __name__ == '__main__':
+    main()
