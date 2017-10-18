@@ -14,8 +14,7 @@ def consolidate():
     folders = load_folders()
     for i in folders:
         files = os.listdir(path + "/" + i)
-        print (len(files))
-        exit(0)
+
 
 
 def main():
