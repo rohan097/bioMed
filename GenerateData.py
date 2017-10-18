@@ -24,9 +24,9 @@ def load_config():
 config = load_config()
 path = config['path']
 fs = config['fs']
-NFFT = config['NFFT']
-noverlap = config['noverlap']
-electrode = config['electrode']
+NFFT = int(config['NFFT'])
+noverlap = int(config['noverlap'])
+electrode = int(config['electrode'])
 output_path = config['output_path']
 
 
@@ -35,12 +35,12 @@ def load_data():
     if args.num_of_dogs > len(folders):
         raise Exception("There aren't that many folders.")
     jobs = []
-    k = 0
+    k = 500
     l = 0
 
     print("Generating Spectrogram for folder: " + folders[args.num_of_dogs - 1])
 
-    for i in range(0, len(os.listdir(path + folders[args.num_of_dogs - 1]))):
+    for i in range(500, len(os.listdir(path + folders[args.num_of_dogs - 1]))):
 
         data = scipy.io.loadmat(path + folders[args.num_of_dogs - 1] + '/' +
                                 sorted(os.listdir(path + folders[args.num_of_dogs - 1]))[1:][i])
