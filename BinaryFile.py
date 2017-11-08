@@ -5,7 +5,7 @@ from random import shuffle
 from PIL import Image
 print ("Imported all necessary modules.")
 
-preictal_path = "/home/rohan/Course Projects/bioMed/Data/Preictal/*.png"
+preictal_path = "/home/rohan/Course Projects/bioMed/Data/Preictal_Sampled/*.png"
 interictal_path = "/home/rohan/Course Projects/bioMed/Data/Interictal/*.png"
 tfrecords_filename_train = "train.tfrecords"
 tfrecords_filename_test = "test.tfrecords"
@@ -41,12 +41,20 @@ def generate():
     if shuffle:
         addrs, labels = shuffle_data(addrs, labels)
 
-    train_addrs = addrs[0: int(0.6 * len(addrs))]
-    train_labels = labels[0: int(0.6 * len(labels))]
-    val_addrs = addrs[int(0.6 * len(addrs)): int(0.8 * len(addrs))]
-    val_labels = labels[int(0.6 * len(addrs)): int(0.8 * len(addrs))]
-    test_addrs = addrs[int(0.8 * len(addrs)):]
-    test_labels = labels[int(0.8 * len(labels)):]
+    train_addrs = addrs[0: int(0.8 * len(addrs))]
+    train_labels = labels[0: int(0.8 * len(labels))]
+    val_addrs = addrs[int(0.8 * len(addrs)): int(0.9 * len(addrs))]
+    val_labels = labels[int(0.8 * len(addrs)): int(0.9 * len(addrs))]
+    test_addrs = addrs[int(0.9 * len(addrs)):]
+    test_labels = labels[int(0.9 * len(labels)):]
+
+    print ("Total size of dataset: %d" %len(addrs))
+    print ("Size of  training  data: %d" %len(train_addrs))
+    print ("Size of  testing   data: %d" %len(test_addrs))
+    print ("Size of validation data: %d" %len(val_addrs))
+    wait = input("Press any key to continue, or press c to cancel.")
+    if wait == "c":
+        exit()
 
     writer = tf.python_io.TFRecordWriter(tfrecords_filename_train)
 
@@ -66,7 +74,7 @@ def generate():
         }))
         writer.write(example.SerializeToString())
     writer.close()
-    print ("Finished generating binary file for training data.")
+    print("Finished generating binary file for training data.")
 
     writer = tf.python_io.TFRecordWriter(tfrecords_filename_test)
 
